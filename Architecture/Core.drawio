@@ -1,0 +1,89 @@
+<mxfile host="app.diagrams.net" modified="2024-03-19T21:38:29.099Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 OPR/108.0.0.0" etag="ECUqDFNyajhyix_jGoz-" version="24.0.5" type="github">
+  <diagram name="Página-1" id="lM72U90IZutatPVYWRrk">
+    <mxGraphModel dx="826" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-1" value="&lt;h1&gt;Features&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;&lt;ul style=&quot;font-size: 14px;&quot;&gt;&lt;li&gt;Predict best moment to book tickets:&lt;/li&gt;&lt;li&gt;Monitor prices:&lt;/li&gt;&lt;li&gt;Notify low prices:&lt;/li&gt;&lt;li&gt;Plot variations:&lt;/li&gt;&lt;li&gt;Allow multiple origins and destinations&lt;/li&gt;&lt;li&gt;Give average price for seasons/months&lt;/li&gt;&lt;li&gt;Flexible search +- x days&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="40" y="10" width="350" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-8" value="&lt;a style=&quot;font-size: 16px;&quot; href=&quot;https://rapidapi.com/collection/flight-data-apis&quot;&gt;RapidAPI&lt;/a&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="60" y="450" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-9" value="Local Database" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="80" y="720" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-21" value="add Search info" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=14;" parent="1" source="yyLyOFHPiVr8ziHgDC39-27" target="yyLyOFHPiVr8ziHgDC39-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-12" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="395" y="1030" width="50" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="yyLyOFHPiVr8ziHgDC39-13" target="yyLyOFHPiVr8ziHgDC39-19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="yyLyOFHPiVr8ziHgDC39-13" target="yyLyOFHPiVr8ziHgDC39-24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="690" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-13" value="CORE" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fillColor=#fad7ac;strokeColor=#b46504;" parent="1" vertex="1">
+          <mxGeometry x="300" y="560" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-15" value="restAPI" style="endArrow=classic;html=1;rounded=0;exitX=0.55;exitY=0.95;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontSize=14;" parent="1" source="yyLyOFHPiVr8ziHgDC39-2" target="yyLyOFHPiVr8ziHgDC39-13" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="600" as="sourcePoint" />
+            <mxPoint x="440" y="550" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="266" y="510" />
+              <mxPoint x="360" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-16" value="PostgreeSQL" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;" parent="1" source="yyLyOFHPiVr8ziHgDC39-9" target="yyLyOFHPiVr8ziHgDC39-13" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="600" as="sourcePoint" />
+            <mxPoint x="440" y="550" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="140" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-19" value="Plot tendencies&amp;nbsp;" style="image;html=1;image=img/lib/clip_art/finance/Graph_128x128.png" parent="1" vertex="1">
+          <mxGeometry x="560" y="390" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-24" value="Notify low price" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;strokeWidth=1;align=center;outlineConnect=0;dashed=0;outlineConnect=0;shape=mxgraph.aws3d.email;aspect=fixed;strokeColor=#F76809;" parent="1" vertex="1">
+          <mxGeometry x="670" y="550" width="75.44" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-26" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="40" y="240" width="410" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-2" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="yyLyOFHPiVr8ziHgDC39-26" vertex="1">
+          <mxGeometry width="410" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-4" value="Kayak" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" parent="yyLyOFHPiVr8ziHgDC39-26" vertex="1">
+          <mxGeometry x="260" y="65" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-5" value="Skyscanner" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" parent="yyLyOFHPiVr8ziHgDC39-26" vertex="1">
+          <mxGeometry x="160" y="130" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-29" value="Add search Criteria" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=14;" parent="1" source="yyLyOFHPiVr8ziHgDC39-12" target="yyLyOFHPiVr8ziHgDC39-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="1030" as="sourcePoint" />
+            <mxPoint x="420" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-27" value="Interface" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="360" y="780" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="yyLyOFHPiVr8ziHgDC39-31" value="Web interface (django/flask) + webflow?&lt;div&gt;PyQt6?&lt;/div&gt;&lt;div&gt;Tkinter?&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="490" y="795" width="300" height="115" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
