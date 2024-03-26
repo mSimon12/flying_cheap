@@ -1,0 +1,17 @@
+{
+   "api_name0": {
+      "base_url": "url0",
+      "key": "key0",
+      "host": "host0"
+   },
+   "api_name1": {
+      "base_url": "url1",
+      "key": "key1",
+      "host": "host1"
+   },
+   "api_name2": {
+      "base_url": "url2",
+      "key": "key2",
+      "host": "host2"
+   }
+}
