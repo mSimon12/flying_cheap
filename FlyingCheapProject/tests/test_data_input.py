@@ -1,5 +1,5 @@
 from unittest import main, TestCase
-from data_import import FlightAPI
+from data_input.generic_flight_api import FlightAPI
 
 
 class TestFlightApi(TestCase):
