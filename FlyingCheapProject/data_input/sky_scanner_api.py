@@ -1,6 +1,6 @@
 import requests
 from generic_flight_api import FlightAPI
-from pandas import DataFrame, read_json
+from pandas import read_json
 
 
 class SkyScanner(FlightAPI):
@@ -13,6 +13,45 @@ class SkyScanner(FlightAPI):
     def get_config(country: str):
         df = read_json("sky_scanner_config.json", orient="index")
         return df.loc[country].to_dict()
+
+    def get_exemple_id_request_result(self):
+        example_id = [{'id': 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
+                       'presentation': {'title': 'Rio de Janeiro', 'suggestionTitle': 'Rio de Janeiro (qualquer)',
+                                        'subtitle': 'Brasil'},
+                       'navigation': {'entityId': '27541837', 'entityType': 'CITY', 'localizedName': 'Rio de Janeiro',
+                                      'relevantFlightParams': {'skyId': 'RIOA', 'entityId': '27541837',
+                                                               'flightPlaceType': 'CITY',
+                                                               'localizedName': 'Rio de Janeiro'},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
+                                                              'localizedName': 'Rio de Janeiro'}}},
+                      {'id': 'eyJzIjoiR0lHIiwiZSI6Ijk1NjczMzQ3IiwiaCI6IjI3NTQxODM3In0=',
+                       'presentation': {'title': 'Internacional do Rio de Janeiro/Galeão - Antonio C',
+                                        'suggestionTitle': 'Internacional do Rio de Janeiro/Galeão - Antonio C (GIG)',
+                                        'subtitle': 'Brasil'},
+                       'navigation': {'entityId': '95673347', 'entityType': 'AIRPORT',
+                                      'localizedName': 'Internacional do Rio de Janeiro/Galeão - Antonio C',
+                                      'relevantFlightParams': {'skyId': 'GIG', 'entityId': '95673347',
+                                                               'flightPlaceType': 'AIRPORT',
+                                                               'localizedName': 'Internacional do Rio de Janeiro/Galeão - Antonio C'},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY', 'localizedName': 'Rio de Janeiro'}}},
+                      {'id': 'eyJzIjoiU0RVIiwiZSI6Ijk1NjczMzQ2IiwiaCI6IjI3NTQxODM3In0=',
+                       'presentation': {'title': 'Rio de Janeiro Santos Dumont', 'suggestionTitle': 'Rio de Janeiro Santos Dumont (SDU)', 'subtitle': 'Brasil'},
+                       'navigation': {'entityId': '95673346', 'entityType': 'AIRPORT',
+                                      'localizedName': 'Rio de Janeiro Santos Dumont',
+                                      'relevantFlightParams': {'skyId': 'SDU', 'entityId': '95673346', 'flightPlaceType': 'AIRPORT',
+                                                               'localizedName': 'Rio de Janeiro Santos Dumont'},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
+                                                              'localizedName': 'Rio de Janeiro'}}},
+                      {'id': 'eyJzIjoiUlJKIiwiZSI6IjIxNjc2NjE2OSIsImgiOiIyNzU0MTgzNyJ9',
+                       'presentation': {'title': 'Jacarepaguá', 'suggestionTitle': 'Jacarepaguá (RRJ)', 'subtitle': 'Brasil'},
+                       'navigation': {'entityId': '216766169', 'entityType': 'AIRPORT', 'localizedName': 'Jacarepaguá',
+                                      'relevantFlightParams': {'skyId': 'RRJ', 'entityId': '216766169',
+                                                               'flightPlaceType': 'AIRPORT',
+                                                               'localizedName': 'Jacarepaguá'},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
+                                                              'localizedName': 'Rio de Janeiro'}}}]
+
+        return example_id
 
     def get_location_id(self, city: str, country_name: str):
         # TODO: create a cache with successful results
@@ -55,4 +94,10 @@ class SkyScanner(FlightAPI):
 
 if __name__ == "__main__":
     ss = SkyScanner()
-    # ss.get_location_id("Rio de Janeiro", "Brazil")
+    id_res = ss.get_exemple_id_request_result()
+
+    for option in id_res:
+        # print(f"ID: {option['id']})
+        for info in option:
+            print(f"{info} => {option[info]}")
+        print()
