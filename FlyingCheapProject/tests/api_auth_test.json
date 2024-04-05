@@ -1,17 +1,24 @@
 {
-   "api_name0": {
-      "base_url": "url0",
-      "key": "key0",
-      "host": "host0"
+   "api_valid_credentials": {
+      "base_url": "https://valid.url.com/test",
+      "key": "val1dk3y",
+      "host": "apihost.valid.com"
    },
-   "api_name1": {
-      "base_url": "url1",
-      "key": "key1",
-      "host": "host1"
+   "api_invalid_credentials": {
+      "base_url": 1.2,
+      "key": 0,
+      "host": true
    },
-   "api_name2": {
-      "base_url": "url2",
-      "key": "key2",
-      "host": "host2"
+   "api_missing_url": {
+      "key": "val1dk3y",
+      "host": "apihost.valid.com"
+   },
+   "api_missing_key": {
+      "base_url": "https://valid.url.com/test",
+      "host": "apihost.valid.com"
+   },
+   "api_missing_host": {
+      "base_url": "https://valid.url.com/test",
+      "key": "val1dk3y"
    }
 }

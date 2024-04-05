@@ -6,6 +6,8 @@ from pandas import DataFrame, read_json
 class SkyScanner(FlightAPI):
     def __init__(self):
         super().__init__("skyscanner")
+        credentials = self.load_credentials("skyscanner")
+        self.set_credentials(credentials)
 
     @staticmethod
     def get_config(country: str):
