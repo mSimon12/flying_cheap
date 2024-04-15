@@ -1,7 +1,8 @@
 import requests
 from generic_flight_api import FlightAPI
-from pandas import read_json
+import pandas as pd
 
+RELEVANT_ID_INFO = ["title", "subtitle", "entityType", "id", "entityId"]
 
 class SkyScanner(FlightAPI):
     def __init__(self):
@@ -11,10 +12,35 @@ class SkyScanner(FlightAPI):
 
     @staticmethod
     def get_config(country: str):
-        df = read_json("sky_scanner_config.json", orient="index")
+        df = pd.read_json("sky_scanner_config.json", orient="index")
         return df.loc[country].to_dict()
 
-    def get_exemple_id_request_result(self):
+    def save_new_id_to_csv(self, id_request_result, ids_filename: str = "backup_ids.csv"):
+        try:
+            backup_df = pd.read_csv(ids_filename, index_col="skyId", dtype='str')
+        except FileNotFoundError:
+            backup_df = pd.DataFrame(columns=RELEVANT_ID_INFO)
+            backup_df.index.name = "skyId"
+
+        for option in id_request_result:
+            sky_id = self.extract_info(option, backup_df.index.name)
+            for info in RELEVANT_ID_INFO:
+                backup_df.loc[sky_id, info] = self.extract_info(option, info)
+
+        backup_df.to_csv(ids_filename)
+
+    def extract_info(self, info_source: dict, desired_info: str) -> str:
+        if desired_info in info_source:
+            return info_source[desired_info]
+        else:
+            for info in info_source:
+                if isinstance(info_source[info], dict):
+                    extract_res = self.extract_info(info_source[info], desired_info)
+                    if extract_res:
+                        return extract_res
+        return None
+
+    def get_example_id_request_result(self):
         example_id = [{'id': 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
                        'presentation': {'title': 'Rio de Janeiro', 'suggestionTitle': 'Rio de Janeiro (qualquer)',
                                         'subtitle': 'Brasil'},
@@ -94,10 +120,11 @@ class SkyScanner(FlightAPI):
 
 if __name__ == "__main__":
     ss = SkyScanner()
-    id_res = ss.get_exemple_id_request_result()
+    id_res = ss.get_example_id_request_result()
+    ss.save_new_id_to_csv(id_res)
 
-    for option in id_res:
-        # print(f"ID: {option['id']})
-        for info in option:
-            print(f"{info} => {option[info]}")
-        print()
+    # for option in id_res:
+    #     # print(f"ID: {option['id']})
+    #     for info in option:
+    #         print(f"{info} => {option[info]}")
+    #     print()
