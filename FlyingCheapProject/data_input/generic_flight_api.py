@@ -6,14 +6,13 @@ AUTH_FILE = 'api-auth.json'
 
 class FlightAPI(object):
 
-    def __init__(self, api_name: str, auth_file: str = AUTH_FILE):
+    def __init__(self, api_name: str):
         self.api_name = api_name
-        self.auth_file = auth_file
         self.header = None
         self.api_url = None
 
     @staticmethod
-    def load_credentials(api_name: str, filename: str = AUTH_FILE) -> dict:
+    def load_credentials(api_name: str, filename: str) -> dict:
         with open(filename, 'r') as file:
             auth_data = json.load(file)
         credentials = auth_data[api_name]
@@ -47,3 +46,7 @@ class FlightAPI(object):
         self.api_url = credentials["base_url"]
         self.header = self.build_header(credentials["key"], credentials["host"])
         return True
+
+    def set_credentials_from_file(self, filename: str = AUTH_FILE) -> bool:
+        credentials = self.load_credentials(self.api_name, filename)
+        return self.set_credentials(credentials)
