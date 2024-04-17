@@ -1,12 +1,13 @@
 from unittest import main, TestCase
 from data_input.generic_flight_api import FlightAPI
+from data_input.sky_scanner_api import SkyScanner
 
 
 class TestFlightApi(TestCase):
 
     def setUp(self):
         self.test_auth_file = "api_auth_test.json"
-        self.flight_api = FlightAPI("api", self.test_auth_file)
+        self.flight_api = FlightAPI("api")
 
     # Load credentials test
     def test_load_credentials(self):
@@ -58,7 +59,7 @@ class TestFlightApi(TestCase):
     def test_set_credentials_missing_info(self):
         use_cases = ["api_missing_url", "api_missing_key", "api_missing_host"]
 
-        flight_api = FlightAPI("api", self.test_auth_file)
+        flight_api = FlightAPI("api")
         self.assertIsNone(flight_api.api_url, "URL should be initialized as None!")
         self.assertIsNone(flight_api.header, "Header should be initialized as None!")
 
@@ -69,6 +70,45 @@ class TestFlightApi(TestCase):
 
         self.assertIsNone(flight_api.api_url, "URL should be still be None if not all info is given!")
         self.assertIsNone(flight_api.header, "Header should be still be None if not all info is given!")
+
+
+class TestSkyScannerApi(TestCase):
+
+    def setUp(self):
+        self.sky_scanner_flight_api = SkyScanner()
+        self.sky_scanner_flight_api.set_credentials_from_file("api_auth_test.json")
+
+        self.raw_info = {'id': 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
+                       'presentation': {'title': 'Rio de Janeiro', 'suggestionTitle': 'Rio de Janeiro (qualquer)',
+                                        'subtitle': 'Brasil'},
+                       'navigation': {'entityId': '27541837', 'entityType': 'CITY', 'localizedName': 'Rio de Janeiro',
+                                      'relevantFlightParams': {'skyId': 'RIOA', 'entityId': '27541837',
+                                                               'flightPlaceType': 'CITY',
+                                                               'localizedName': 'Rio de Janeiro'},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
+                                                              'localizedName': 'Rio de Janeiro'}}}
+
+    def test_extract_valid_info(self):
+        info_level_1 = 'id'
+        filtered_info = self.sky_scanner_flight_api.extract_info(self.raw_info, info_level_1)
+        self.assertIsNotNone(filtered_info, f"'{info_level_1}' should be a valid info!")
+        self.assertEqual(filtered_info, 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
+                         'Info does not match with info in raw data!')
+
+        info_level_2 = 'entityType'
+        filtered_info = self.sky_scanner_flight_api.extract_info(self.raw_info, info_level_2)
+        self.assertIsNotNone(filtered_info, f"'{info_level_2}' should be a valid info!")
+        self.assertEqual(filtered_info, 'CITY', 'Info does not match with info in raw data!')
+
+        info_level_3 = 'skyId'
+        filtered_info = self.sky_scanner_flight_api.extract_info(self.raw_info, info_level_3)
+        self.assertIsNotNone(filtered_info, f"'{info_level_3}' should be a valid info!")
+        self.assertEqual(filtered_info, 'RIOA', 'Info does not match with info in raw data!')
+
+    def test_extract_invalid_info(self):
+        invalid_info = 'myId'
+        filtered_info = self.sky_scanner_flight_api.extract_info(self.raw_info, invalid_info)
+        self.assertIsNone(filtered_info, f"'{invalid_info}' should not be a valid info!")
 
 
 if __name__ == "__main__":

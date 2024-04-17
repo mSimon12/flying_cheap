@@ -1,14 +1,13 @@
 import requests
-from generic_flight_api import FlightAPI
+from data_input.generic_flight_api import FlightAPI
 import pandas as pd
 
 RELEVANT_ID_INFO = ["title", "subtitle", "entityType", "id", "entityId"]
 
+
 class SkyScanner(FlightAPI):
     def __init__(self):
         super().__init__("skyscanner")
-        credentials = self.load_credentials("skyscanner")
-        self.set_credentials(credentials)
 
     @staticmethod
     def get_config(country: str):
@@ -119,7 +118,8 @@ class SkyScanner(FlightAPI):
 
 
 if __name__ == "__main__":
-    ss = SkyScanner()
+    ss = SkyScanner("skyscanner")
+    ss.set_credentials_from_file()
     id_res = ss.get_example_id_request_result()
     ss.save_new_id_to_csv(id_res)
 

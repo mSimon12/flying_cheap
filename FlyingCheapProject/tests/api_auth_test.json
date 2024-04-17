@@ -20,5 +20,10 @@
    "api_missing_host": {
       "base_url": "https://valid.url.com/test",
       "key": "val1dk3y"
+   },
+   "skyscanner": {
+      "base_url": "https://valid.url.com/test",
+      "key": "val1dk3y",
+      "host": "apihost.valid.com"
    }
 }
