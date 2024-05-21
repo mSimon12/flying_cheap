@@ -8,25 +8,36 @@ RELEVANT_ID_INFO = ["title", "subtitle", "entityType", "id", "entityId"]
 class SkyScanner(FlightAPI):
     def __init__(self):
         super().__init__("skyscanner")
+        self.backup_file = "backup_ids.csv"
 
     @staticmethod
     def get_config(country: str):
         df = pd.read_json("sky_scanner_config.json", orient="index")
         return df.loc[country].to_dict()
 
-    def save_new_id_to_csv(self, id_request_result, ids_filename: str = "backup_ids.csv"):
+    def search_info_at_ids_backup(self, info: str):
+        pass
+
+    def save_id_info_to_backup(self, info):
         try:
-            backup_df = pd.read_csv(ids_filename, index_col="skyId", dtype='str')
+            backup_df = pd.read_csv(self.backup_file, index_col="skyId", dtype='str')
         except FileNotFoundError:
             backup_df = pd.DataFrame(columns=RELEVANT_ID_INFO)
             backup_df.index.name = "skyId"
 
-        for option in id_request_result:
-            sky_id = self.extract_info(option, backup_df.index.name)
-            for info in RELEVANT_ID_INFO:
-                backup_df.loc[sky_id, info] = self.extract_info(option, info)
+        backup_df = pd.concat([backup_df, info])
+        backup_df.to_csv(self.backup_file)
 
-        backup_df.to_csv(ids_filename)
+    def filter_id_request_info(self, id_request_result):
+        id_info = pd.DataFrame(columns=RELEVANT_ID_INFO)
+        id_info.index.name = "skyId"
+
+        for option in id_request_result:
+            sky_id = self.extract_info(option, id_info.index.name)
+            for info in RELEVANT_ID_INFO:
+                id_info.loc[sky_id, info] = self.extract_info(option, info)
+
+        self.save_id_info_to_backup(id_info)
 
     def extract_info(self, info_source: dict, desired_info: str) -> str:
         if desired_info in info_source:
@@ -37,7 +48,7 @@ class SkyScanner(FlightAPI):
                     extract_res = self.extract_info(info_source[info], desired_info)
                     if extract_res:
                         return extract_res
-        return None
+        return ''
 
     def get_example_id_request_result(self):
         example_id = [{'id': 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
@@ -58,17 +69,21 @@ class SkyScanner(FlightAPI):
                                       'relevantFlightParams': {'skyId': 'GIG', 'entityId': '95673347',
                                                                'flightPlaceType': 'AIRPORT',
                                                                'localizedName': 'Internacional do Rio de Janeiro/Galeão - Antonio C'},
-                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY', 'localizedName': 'Rio de Janeiro'}}},
+                                      'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
+                                                              'localizedName': 'Rio de Janeiro'}}},
                       {'id': 'eyJzIjoiU0RVIiwiZSI6Ijk1NjczMzQ2IiwiaCI6IjI3NTQxODM3In0=',
-                       'presentation': {'title': 'Rio de Janeiro Santos Dumont', 'suggestionTitle': 'Rio de Janeiro Santos Dumont (SDU)', 'subtitle': 'Brasil'},
+                       'presentation': {'title': 'Rio de Janeiro Santos Dumont',
+                                        'suggestionTitle': 'Rio de Janeiro Santos Dumont (SDU)', 'subtitle': 'Brasil'},
                        'navigation': {'entityId': '95673346', 'entityType': 'AIRPORT',
                                       'localizedName': 'Rio de Janeiro Santos Dumont',
-                                      'relevantFlightParams': {'skyId': 'SDU', 'entityId': '95673346', 'flightPlaceType': 'AIRPORT',
+                                      'relevantFlightParams': {'skyId': 'SDU', 'entityId': '95673346',
+                                                               'flightPlaceType': 'AIRPORT',
                                                                'localizedName': 'Rio de Janeiro Santos Dumont'},
                                       'relevantHotelParams': {'entityId': '27541837', 'entityType': 'CITY',
                                                               'localizedName': 'Rio de Janeiro'}}},
                       {'id': 'eyJzIjoiUlJKIiwiZSI6IjIxNjc2NjE2OSIsImgiOiIyNzU0MTgzNyJ9',
-                       'presentation': {'title': 'Jacarepaguá', 'suggestionTitle': 'Jacarepaguá (RRJ)', 'subtitle': 'Brasil'},
+                       'presentation': {'title': 'Jacarepaguá', 'suggestionTitle': 'Jacarepaguá (RRJ)',
+                                        'subtitle': 'Brasil'},
                        'navigation': {'entityId': '216766169', 'entityType': 'AIRPORT', 'localizedName': 'Jacarepaguá',
                                       'relevantFlightParams': {'skyId': 'RRJ', 'entityId': '216766169',
                                                                'flightPlaceType': 'AIRPORT',
@@ -82,7 +97,6 @@ class SkyScanner(FlightAPI):
         # TODO: create a cache with successful results
         #  and check cache before requesting id via API
         cfg = self.get_config(country_name)
-        print(cfg)
         locale = cfg['locale']
         market = cfg['market']
 
@@ -118,13 +132,13 @@ class SkyScanner(FlightAPI):
 
 
 if __name__ == "__main__":
-    ss = SkyScanner("skyscanner")
+    ss = SkyScanner()
     ss.set_credentials_from_file()
     id_res = ss.get_example_id_request_result()
-    ss.save_new_id_to_csv(id_res)
+    ss.filter_id_request_info(id_res)
 
-    # for option in id_res:
-    #     # print(f"ID: {option['id']})
-    #     for info in option:
-    #         print(f"{info} => {option[info]}")
-    #     print()
+    for option in id_res:
+        # print(f"ID: {option['id']})
+        for info in option:
+            print(f"{info} => {option[info]}")
+        print()
