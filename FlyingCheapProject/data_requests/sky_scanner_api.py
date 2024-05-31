@@ -1,5 +1,5 @@
 import requests
-from data_input.generic_flight_api import FlightAPI
+from data_requests.generic_flight_api import FlightAPI
 import pandas as pd
 
 RELEVANT_ID_INFO = ["title", "subtitle", "entityType", "id", "entityId"]
@@ -25,6 +25,7 @@ class SkyScanner(FlightAPI):
             backup_df = pd.DataFrame(columns=RELEVANT_ID_INFO)
             backup_df.index.name = "skyId"
 
+        # TODO: Avoid saving duplicates
         backup_df = pd.concat([backup_df, info])
         backup_df.to_csv(self.backup_file)
 
