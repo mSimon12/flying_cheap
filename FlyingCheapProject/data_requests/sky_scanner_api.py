@@ -18,7 +18,7 @@ class SkyScanner(FlightAPI):
     def search_info_at_ids_backup(self, info: str):
         pass
 
-    def save_id_info_to_backup(self, info):
+    def save_id_info_to_backup(self, info) -> bool:
         try:
             backup_df = pd.read_csv(self.backup_file, index_col="skyId", dtype='str')
         except FileNotFoundError:
@@ -27,7 +27,12 @@ class SkyScanner(FlightAPI):
 
         # TODO: Avoid saving duplicates
         backup_df = pd.concat([backup_df, info])
-        backup_df.to_csv(self.backup_file)
+        try:
+            backup_df.to_csv(self.backup_file)
+        except Exception:
+            return False
+
+        return True
 
     def filter_id_request_info(self, id_request_result):
         id_info = pd.DataFrame(columns=RELEVANT_ID_INFO)
