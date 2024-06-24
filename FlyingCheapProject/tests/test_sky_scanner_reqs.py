@@ -1,5 +1,5 @@
 from unittest import main, TestCase
-from data_requests.sky_scanner_api import SkyScanner
+from data_requests.sky_scanner_api import SkyScanner, RELEVANT_ID_INFO
 import pandas as pd
 import os
 
@@ -57,8 +57,6 @@ class TestSkyScannerApi(TestCase):
                                  'id': ["ad51ads64das6asd654a"],
                                  'title': ["Berlin"]}
         test_info = pd.DataFrame(test_info_dict)
-
-        self.sky_scanner_flight_api.backup_file = self.test_filename
         save_status = self.sky_scanner_flight_api.save_id_info_to_backup(test_info)
 
         file_exist = os.path.isfile(self.test_filename)
@@ -72,19 +70,50 @@ class TestSkyScannerApi(TestCase):
         self.assertTrue(save_status, "Function should return true for saving the file!")
 
     def test_save_id_info_to_existing_backup(self):
-        # create file
-        # input: dict or Series
-        # save it to file
-        # check if info is on file
-        pass
+        info_df = pd.DataFrame(columns=RELEVANT_ID_INFO)
+        info_df.to_csv(self.test_filename, index_label="skyId")
+
+        test_info_dict = {'skyId': ['BRL'],
+                          'id': ["ad51ads64das6asd654a"],
+                          'title': ["Berlin"]}
+        test_info = pd.DataFrame(test_info_dict)
+        save_status = self.sky_scanner_flight_api.save_id_info_to_backup(test_info)
+
+        saved_file = pd.read_csv(self.test_filename)
+        for col, value in test_info_dict.items():
+            self.assertTrue(col in saved_file.columns, f"Key {col} should be present in Columns!")
+            self.assertTrue(value in saved_file.loc[:, col].values, f"Value {value} should be present in column {col}!")
+
+        self.assertTrue(save_status, "Function should return true for updating backup file!")
 
     def test_save_duplicated_info_backup(self):
         # Duplicate info should not be saved, it should be filtered by the function and avoided
-        # create file
-        # input: dict or Series
-        # save it twice to file
-        # check if info is only once on file
-        pass
+        test_info_dict = {'skyId': ['BRL'],
+                          'id': ["ad51ads64das6asd654a"],
+                          'title': ["Berlin"]}
+        test_info = pd.DataFrame(test_info_dict)
+
+        for attempt in range(5):
+            save_status = self.sky_scanner_flight_api.save_id_info_to_backup(test_info)
+            saved_file = pd.read_csv(self.test_filename)
+            if attempt > 0:
+                self.assertEqual(1, len(saved_file), "Only One row should be added. All duplicates must be ignored!")
+                self.assertFalse(save_status, "Function should return false if skyId info is duplicated!")
+
+    def test_save_multiple_duplicated_info_backup(self):
+        # Duplicate info should not be saved, it should be filtered by the function and avoided
+        test_info_dict = {'skyId': ['BRL', 'USA'],
+                          'id': ["ad51ads64das6asd654a", "ad51ads64dsadsa"],
+                          'title': ["Berlin", "United States"]}
+        test_info = pd.DataFrame(test_info_dict)
+
+        for attempt in range(5):
+            save_status = self.sky_scanner_flight_api.save_id_info_to_backup(test_info)
+            saved_file = pd.read_csv(self.test_filename)
+            if attempt > 0:
+                self.assertEqual(len(test_info_dict["skyId"]), len(saved_file), "All duplicates must be ignored!")
+                self.assertFalse(save_status, "Function should return false if skyId info is duplicated!")
+
 
     def test_filter_id_request_info(self):
         # input: result from id_request
@@ -95,7 +124,8 @@ class TestSkyScannerApi(TestCase):
 
     def tearDown(self):
         # Clean file created
-        os.remove(self.test_filename)
+        if os.path.isfile(self.test_filename):
+            os.remove(self.test_filename)
 
 if __name__ == "__main__":
     main()

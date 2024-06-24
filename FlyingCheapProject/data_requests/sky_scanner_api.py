@@ -21,18 +21,26 @@ class SkyScanner(FlightAPI):
     def save_id_info_to_backup(self, info) -> bool:
         try:
             backup_df = pd.read_csv(self.backup_file, index_col="skyId", dtype='str')
-        except FileNotFoundError:
+        except FileNotFoundError or pd.errors.EmptyDataError:
             backup_df = pd.DataFrame(columns=RELEVANT_ID_INFO)
             backup_df.index.name = "skyId"
 
-        # TODO: Avoid saving duplicates
-        backup_df = pd.concat([backup_df, info])
-        try:
-            backup_df.to_csv(self.backup_file)
-        except Exception:
-            return False
+        # Avoid saving duplicated info
+        if "skyId" in info.columns:
+            info.set_index("skyId", inplace=True)
+        status = True
+        for info_row in info.index:
+            if info_row in backup_df.index.values:
+                status = False
+                continue
 
-        return True
+            backup_df = pd.concat([backup_df, info.loc[info_row, :].to_frame().T])
+            try:
+                backup_df.to_csv(self.backup_file, index_label="skyId")
+            except Exception:
+                status = False
+
+        return status
 
     def filter_id_request_info(self, id_request_result):
         id_info = pd.DataFrame(columns=RELEVANT_ID_INFO)
@@ -135,6 +143,15 @@ class SkyScanner(FlightAPI):
         print(search_res.status_code)
         print(search_res.headers)
         print(search_res.json())
+
+    def search(self):
+        # Step 1: get search info (from, to, date, type of search [one_way, ...])
+        # Step 2: check if already have ids
+        # Step 3: get ids if not available
+        # Step 4: save new ids
+        # Step 5: do the search call
+        pass
+
 
 
 if __name__ == "__main__":
