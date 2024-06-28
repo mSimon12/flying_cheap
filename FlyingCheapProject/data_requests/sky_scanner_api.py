@@ -15,6 +15,23 @@ class SkyScanner(FlightAPI):
         df = pd.read_json("sky_scanner_config.json", orient="index")
         return df.loc[country].to_dict()
 
+    def request_new_location_id(self, city: str, country_name: str):
+        cfg = self.get_config(country_name)
+        locale = cfg['locale']
+        market = cfg['market']
+
+        querystring = {"query": city, "market": market, "locale": locale}
+        complete_url = self.api_url + '/flights/auto-complete'
+
+        try:
+            search_res = requests.get(complete_url, headers=self.header, params=querystring)
+            search_res.raise_for_status()
+        except requests.exceptions.RequestException as error:
+            print(error)
+            return
+
+        return search_res.json()['data']
+
     def search_info_at_ids_backup(self, info: str):
         pass
 
@@ -42,27 +59,27 @@ class SkyScanner(FlightAPI):
 
         return status
 
-    def filter_id_request_info(self, id_request_result):
-        id_info = pd.DataFrame(columns=RELEVANT_ID_INFO)
-        id_info.index.name = "skyId"
-
-        for option in id_request_result:
-            sky_id = self.extract_info(option, id_info.index.name)
-            for info in RELEVANT_ID_INFO:
-                id_info.loc[sky_id, info] = self.extract_info(option, info)
-
-        self.save_id_info_to_backup(id_info)
-
-    def extract_info(self, info_source: dict, desired_info: str) -> str:
+    def extract_info_from_id_request_response(self, info_source: dict, desired_info: str) -> str:
         if desired_info in info_source:
             return info_source[desired_info]
         else:
             for info in info_source:
                 if isinstance(info_source[info], dict):
-                    extract_res = self.extract_info(info_source[info], desired_info)
+                    extract_res = self.extract_info_from_id_request_response(info_source[info], desired_info)
                     if extract_res:
                         return extract_res
         return ''
+
+    def filter_id_info_from_location_request(self, id_request_result):
+        id_info = pd.DataFrame(columns=RELEVANT_ID_INFO)
+        id_info.index.name = "skyId"
+
+        for option in id_request_result:
+            sky_id = self.extract_info_from_id_request_response(option, id_info.index.name)
+            for info in RELEVANT_ID_INFO:
+                id_info.loc[sky_id, info] = self.extract_info_from_id_request_response(option, info)
+
+        return id_info
 
     def get_example_id_request_result(self):
         example_id = [{'id': 'eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9',
@@ -110,21 +127,12 @@ class SkyScanner(FlightAPI):
     def get_location_id(self, city: str, country_name: str):
         # TODO: create a cache with successful results
         #  and check cache before requesting id via API
-        cfg = self.get_config(country_name)
-        locale = cfg['locale']
-        market = cfg['market']
 
-        querystring = {"query": city, "market": market, "locale": locale}
-        complete_url = self.api_url + '/flights/auto-complete'
+        # Check if ID from city is on backup
+        # if yes - get from it
+        # else - request it and save result to bkp
 
-        try:
-            search_res = requests.get(complete_url, headers=self.header, params=querystring)
-            search_res.raise_for_status()
-        except requests.exceptions.RequestException as error:
-            print(error)
-            return
-
-        return search_res.json()['data']
+        pass
 
     def search_one_way(self):
         querystring = {"fromId": "eyJzIjoiTEFYQSIsImUiOiIyNzUzNjIxMSIsImgiOiIyNzUzNjIxMSJ9=",
@@ -153,12 +161,12 @@ class SkyScanner(FlightAPI):
         pass
 
 
-
 if __name__ == "__main__":
     ss = SkyScanner()
     ss.set_credentials_from_file()
     id_res = ss.get_example_id_request_result()
-    ss.filter_id_request_info(id_res)
+    res = ss.filter_id_info_from_location_request(id_res)
+    print(res)
 
     for option in id_res:
         # print(f"ID: {option['id']})
