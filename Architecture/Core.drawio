@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-06-28T17:41:51.481Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 OPR/111.0.0.0" etag="M6i4zVR2UOMc49JYzLH6" version="24.6.2" type="github">
+<mxfile host="app.diagrams.net" modified="2024-06-28T17:52:56.546Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 OPR/111.0.0.0" etag="jusoIEjUwAJep2WJE9Z-" version="24.6.2" type="github">
   <diagram name="Página-1" id="lM72U90IZutatPVYWRrk">
-    <mxGraphModel dx="1508" dy="986" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="862" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -121,6 +121,54 @@
         </mxCell>
         <mxCell id="JSDtrBrURPZqsV68adIS-1" value="&lt;h1&gt;SkyScanner flow&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;" style="text;html=1;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="45" y="1250" width="205" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-2" value="Get SS credentials" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="215" y="1340" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-3" target="JSDtrBrURPZqsV68adIS-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-3" value="Build header" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="215" y="1400" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-5" target="JSDtrBrURPZqsV68adIS-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-5" value="Get config for location qwerystring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="390" y="1480" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-6" target="JSDtrBrURPZqsV68adIS-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-6" value="Build querystring" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="390" y="1560" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-8" target="JSDtrBrURPZqsV68adIS-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-8" value="request location ID" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="390" y="1640" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-9" value="request search" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="215" y="1635" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-10" target="JSDtrBrURPZqsV68adIS-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-10" target="JSDtrBrURPZqsV68adIS-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-10" value="Have location IDs?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="1460" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.492;entryY=-0.138;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-2" target="JSDtrBrURPZqsV68adIS-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSDtrBrURPZqsV68adIS-19" target="JSDtrBrURPZqsV68adIS-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSDtrBrURPZqsV68adIS-19" value="Get location IDs on backup" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="215" y="1560" width="120" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
