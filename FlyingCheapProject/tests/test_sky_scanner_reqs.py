@@ -26,12 +26,21 @@ class TestSkyScannerApi(TestCase):
         self.test_info = pd.DataFrame(test_info_dict)
 
 
-    def test_search_info_at_ids_backup(self):
+    def test_search_existing_info_at_ids_backup(self):
         # input: search name
+        filtered_data = self.sky_scanner_flight_api.filter_id_info_from_location_request(
+            [self.raw_location_id_response])
+        self.sky_scanner_flight_api.save_id_info_to_backup(filtered_data)
+        city = 'Rio de Janeiro'
+        country = 'Brasil'
 
-        #
-        # search value
-        pass
+        found, options = self.sky_scanner_flight_api.search_info_at_ids_backup(city, country)
+        # option = {skyID:{'id': xxx, 'title': sss}}
+        self.assertTrue(found, f"{city} ({country}) should be found on backup file!")
+        self.assertTrue('RIOA' in options, f"RIOA should be a skyID present on backup file!")
+        self.assertEqual('eyJzIjoiUklPQSIsImUiOiIyNzU0MTgzNyIsImgiOiIyNzU0MTgzNyJ9', options['RIOA']['id'],
+                         f"Wrong ID for {city} ({country})!")
+        self.assertEqual('Rio de Janeiro',  options['RIOA']['title'], f"Wrong Title for {city} ({country})!")
 
     def test_extract_valid_info_from_id_request_response(self):
         """

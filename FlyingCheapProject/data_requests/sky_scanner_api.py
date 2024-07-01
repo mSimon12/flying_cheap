@@ -1,6 +1,7 @@
 import requests
 from data_requests.generic_flight_api import FlightAPI
 import pandas as pd
+import re
 
 RELEVANT_ID_INFO = ["title", "subtitle", "entityType", "id", "entityId"]
 
@@ -32,8 +33,16 @@ class SkyScanner(FlightAPI):
 
         return search_res.json()['data']
 
-    def search_info_at_ids_backup(self, info: str):
-        pass
+    def search_info_at_ids_backup(self, city: str, country: str) -> tuple[bool, dict]:
+        try:
+            backup_df = pd.read_csv(self.backup_file, index_col="skyId", dtype='str')
+        except FileNotFoundError or pd.errors.EmptyDataError:
+            return False, {}
+
+        matching_rows = backup_df[backup_df['title'].str.contains(city)]
+        matching_rows = matching_rows[matching_rows['subtitle'].str.contains(country)]
+        matching_rows.drop(columns=['subtitle', 'entityType', 'entityId'], inplace=True)
+        return True, matching_rows.to_dict(orient='index')
 
     def save_id_info_to_backup(self, info) -> bool:
         try:
@@ -163,13 +172,14 @@ class SkyScanner(FlightAPI):
 
 if __name__ == "__main__":
     ss = SkyScanner()
-    ss.set_credentials_from_file()
-    id_res = ss.get_example_id_request_result()
-    res = ss.filter_id_info_from_location_request(id_res)
-    print(res)
-
-    for option in id_res:
-        # print(f"ID: {option['id']})
-        for info in option:
-            print(f"{info} => {option[info]}")
-        print()
+    ss.search_info_at_ids_backup('Rio de Janeiro', 'Brasil')
+    # ss.set_credentials_from_file()
+    # id_res = ss.get_example_id_request_result()
+    # res = ss.filter_id_info_from_location_request(id_res)
+    # print(res)
+    #
+    # for option in id_res:
+    #     # print(f"ID: {option['id']})
+    #     for info in option:
+    #         print(f"{info} => {option[info]}")
+    #     print()
